@@ -29,7 +29,7 @@ function Index(props) {
               <Typography fontSize={12} color='green'>
                   {elem.date}
                 </Typography>
-                <Typography variant='h4' color='blue'>
+                <Typography variant='h4' color='black'>
                   {elem.title}
                 </Typography>
                 <Typography fontSize={12} color='green' marginBottom={2}>

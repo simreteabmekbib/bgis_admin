@@ -7,6 +7,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 // import { mainListItems, secondaryListItems } from '../../components/admin/AdminSideBar';
 import { Menu, MenuItem } from '@mui/material';
 import { Box } from "@mui/system";
+import AccountCircle from '@mui/icons-material/AccountCircle';
+
 
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -71,15 +73,16 @@ export const TopBar = (props) => {
                 >
                     Dashboard
                 </Typography>
-                <IconButton color="inherit">
+                {/* <IconButton color="inherit">
                     <Badge badgeContent={4} color="secondary">
                         <NotificationsIcon />
                     </Badge>
-                </IconButton>
+                </IconButton> */}
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+                            <AccountCircle style={{color:"white", width:"40", height:"40"}}/>
                         </IconButton>
                     </Tooltip>
                     <Menu

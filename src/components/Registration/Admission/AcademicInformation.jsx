@@ -28,65 +28,65 @@ const AcademicInformation = (props) => {
     const onFileUpload = (event) => {
         console.log('hello');
     };
-    const [selectedFile, setSelectedFile] = useState(null);
-    const fileData = () => {
+    // const [selectedFile, setSelectedFile] = useState(null);
+    // const fileData = () => {
 
-        if (selectedFile) {
+    //     if (selectedFile) {
 
-            return (
-                <span>
-                    <Grid container spacing={3} columns={12}>
-                        <Grid item xs={12} sm={6} md={6}>
-                            <Typography variant='body1' align='left' color='textSecondary' marginTop={2}>
-                                {selectedFile.name}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={4}>
-                            <Button variant="contained" color="primary"
-                                fullWidth
-                                onClick={onFileUpload}
-                            >
-                                Upload
-                            </Button>
-                        </Grid>
-                    </Grid>
+    //         return (
+    //             <span>
+    //                 <Grid container spacing={3} columns={12}>
+    //                     <Grid item xs={12} sm={6} md={6}>
+    //                         <Typography variant='body1' align='left' color='textSecondary' marginTop={2}>
+    //                             {selectedFile.name}
+    //                         </Typography>
+    //                     </Grid>
+    //                     <Grid item xs={12} sm={4} md={4}>
+    //                         <Button variant="contained" color="primary"
+    //                             fullWidth
+    //                             onClick={onFileUpload}
+    //                         >
+    //                             Upload
+    //                         </Button>
+    //                     </Grid>
+    //                 </Grid>
 
-                </span>
-            );
-        } else {
-            return (
-                <span>
-                    <Grid container spacing={3} columns={12}>
-                        <Grid item xs={12} sm={6} md={6}>
-                            <Typography variant='body1' align='left' color='textSecondary' marginTop={2}>
-                                Upload your report card
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={4}>
-                            <input
-                                style={{ display: "none" }}
-                                id="contained-button-file"
-                                type="file"
-                                onChange={onFileChange}
-                            />
-                            <label htmlFor="contained-button-file">
-                                <Button variant="contained" color="primary"
-                                    fullWidth
-                                    component="span"
-                                >
-                                    Choose File
-                                </Button>
-                            </label>
-                        </Grid>
-                    </Grid>
-                </span>
-
-
+    //             </span>
+    //         );
+    //     } else {
+    //         return (
+    //             <span>
+    //                 <Grid container spacing={3} columns={12}>
+    //                     <Grid item xs={12} sm={6} md={6}>
+    //                         <Typography variant='body1' align='left' color='textSecondary' marginTop={2}>
+    //                             Upload your report card
+    //                         </Typography>
+    //                     </Grid>
+    //                     <Grid item xs={12} sm={4} md={4}>
+    //                         <input
+    //                             style={{ display: "none" }}
+    //                             id="contained-button-file"
+    //                             type="file"
+    //                             onChange={onFileChange}
+    //                         />
+    //                         <label htmlFor="contained-button-file">
+    //                             <Button variant="contained" color="primary"
+    //                                 fullWidth
+    //                                 component="span"
+    //                             >
+    //                                 Choose File
+    //                             </Button>
+    //                         </label>
+    //                     </Grid>
+    //                 </Grid>
+    //             </span>
 
 
-            );
-        }
-    };
+
+
+    //         );
+    //     }
+    // };
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3} columns={12} marginTop={1}>
@@ -95,6 +95,19 @@ const AcademicInformation = (props) => {
                     <Typography variant='h6' align='left' color='textSecondary' marginTop={2}>
                         Academic Information
                     </Typography>
+                </Grid>
+                <Grid item xs={12} sm={3} md={3}></Grid>
+                <Grid item xs={12} sm={3} md={3}></Grid>
+                <Grid item xs={12} sm={6} md={6}>
+                    <TextField
+                        label="School name of the previous academic year"
+                        fullWidth
+                        id="school_name"
+                        required
+                        {...register('school_name', { required: 'Required' })}
+                        error={!!errors?.school_name}
+                        helperText={errors?.school_name ? errors.school_name.message : null}
+                    />
                 </Grid>
                 <Grid item xs={12} sm={3} md={3}></Grid>
                 <Grid item xs={12} sm={3} md={3}></Grid>
@@ -112,10 +125,10 @@ const AcademicInformation = (props) => {
                 <Grid item xs={12} sm={3} md={3}></Grid>
 
                 <Grid item xs={12} sm={3} md={3}></Grid>
-                <Grid item xs={12} sm={6} md={6}>
+                {/* <Grid item xs={12} sm={6} md={6}>
                     {fileData()}
 
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={3} md={3}></Grid>
             </Grid>
             <Box sx={{ marginTop: 7, marginBottom: 7 }} display="flex" justifyContent="center" alignItems="center">

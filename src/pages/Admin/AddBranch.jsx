@@ -44,7 +44,6 @@ export default function ViewStudents() {
       title: "Name", field: "name"
       // cellStyle: { background:"#009688" }, headerStyle: { color: "#fff" } 
     },
-    { title: "Branch Id", field: "branchId" },
     { title: "Address", field: "address", },
     { title: "Phone Number", field: "phoneNumber", },
     { title: "Description", field: "description", },

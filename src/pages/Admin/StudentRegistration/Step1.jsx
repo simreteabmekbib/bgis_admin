@@ -10,7 +10,7 @@ function Step1() {
             <Typography variant='h2' align='center' color='textPrimary' marginTop={2}>
                 Admission Form
             </Typography>
-            <BasicInformation nextPage={'/Admin/Step2'}/>
+            <BasicInformation nextPage={'/Admin/StudentRegistration/Step2'}/>
     </AdminLayout>
 
   );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AdminLayout from './layout';  
+import AdminLayout from '../layout';  
 import {CssBaseline,Typography} from '@mui/material';
-import AcademicInformation from '../../components/Registration/Admission/AcademicInformation'
+import AcademicInformation from '../../../components/Registration/Admission/AcademicInformation'
 
 function Step3() {
   return (
@@ -10,7 +10,7 @@ function Step3() {
             <Typography variant='h2' align='center' color='textPrimary' marginTop={2}>
                 Admission Form
             </Typography>
-            <AcademicInformation nextPage={'/Admin/Step4'}/>
+            <AcademicInformation nextPage={'/Admin/StudentRegistration/Step4'}/>
     </AdminLayout>
 
   );

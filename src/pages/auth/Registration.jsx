@@ -78,7 +78,7 @@ const Registration = (props) => {
                     </Typography>
 
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                        <FormControl
+                        {/* <FormControl
                             fullWidth
                         >
                             <InputLabel id="role_label">Are you a?</InputLabel>
@@ -96,7 +96,7 @@ const Registration = (props) => {
                                 <MenuItem value='existing_student'>Existing Student</MenuItem>
                                 <MenuItem value='new_student'>New student, applying for admission.</MenuItem>
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
                         <TextField
                             margin="normal"
                             required

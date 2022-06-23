@@ -9,6 +9,10 @@ function StudentLayout(props) {
 
 	const menu = [
 		{
+			link: '/Student',
+			title: 'View Important Dates'
+		},
+		{
 			link: '/Student/ViewResult',
 			title: 'View Result'
 		},

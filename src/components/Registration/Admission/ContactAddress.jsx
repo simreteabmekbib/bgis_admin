@@ -54,6 +54,29 @@ const ContactAddress = (props) => {
                         required />
                 </Grid>
                 <Grid item xs={12} sm={3} md={3}></Grid>
+
+
+<Grid item xs={12} sm={3} md={3}></Grid>
+<Grid item xs={12} sm={6} md={6}>
+    <TextField
+        fullWidth
+        label="Alternative Phone Number"
+        id="alternativePhoneNumber"
+        type="tele"
+        {...register('alternativePhoneNumber', {
+            required: 'Required',
+            pattern: {
+                value: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+                message: 'Please use the 0912****** format ',
+
+            }
+
+        })}
+        error={!!errors?.alternativePhoneNumber}
+        helperText={errors?.alternativePhoneNumber ? errors.alternativePhoneNumber.message : null}
+        required />
+</Grid>
+                <Grid item xs={12} sm={3} md={3}></Grid>
                 <Grid item xs={12} sm={3} md={3}></Grid>
                 <Grid item xs={12} sm={6} md={6}>
                     <Typography variant='h6' align='left' color='textSecondary' marginTop={2}>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdminLayout from './layout';  
+import AdminLayout from '../layout';  
 import {CssBaseline,Typography} from '@mui/material';
 
 function Step4() {
