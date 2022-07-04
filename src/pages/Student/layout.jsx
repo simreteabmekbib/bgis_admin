@@ -17,6 +17,10 @@ function StudentLayout(props) {
 			title: 'View Result'
 		},
 		{
+			link: '/Student/Registration/Step1',
+			title: 'Complete Profile'
+		},
+		{
 			link: '/Student/EditProfile',
 			title: 'Edit Profile'
 		},

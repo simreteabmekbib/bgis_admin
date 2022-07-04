@@ -21,6 +21,9 @@ function Index(props) {
 	return (
 
 		<StudentLayout>
+      <Typography variant='h4' color='black' textAlign="center">
+                  Important Dates
+                </Typography>
             <Grid container spacing={3} columns={12} marginTop={1} marginBottom={5} >
       {cardData.map((elem) => (
           <Grid item xs={12} sm={12} md={12} key={cardData.indexOf(elem)}>
