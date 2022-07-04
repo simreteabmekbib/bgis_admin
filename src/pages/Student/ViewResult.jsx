@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import StudentLayout from './layout';
+import View from './ViewResult/ViewResult';
 
 
 function ViewResult() {
 
   return (
       <StudentLayout>
-            View Result
+            <View/>
     </StudentLayout>
 
   );

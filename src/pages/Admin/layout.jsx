@@ -8,7 +8,7 @@ function AdminLayout(props) {
 	const mdTheme = createTheme();
 	const menu = [
 	    {
-			link: '/Admin/AdminRegistration',
+			link: '/Admin/AdminRegistration/Step1',
 			title: 'Register Admin'
 		},
 		{
