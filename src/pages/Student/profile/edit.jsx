@@ -1,6 +1,6 @@
 import { Box, Container, Grid, Typography } from '@mui/material';
 import { AccountProfile } from './profile';
-import { AccountProfileDetails } from './profileDetails';
+import  AccountProfileDetails from './profileDetails';
 
 const Account = () => (
   <>

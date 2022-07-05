@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StudentLayout from './layout';
 import {
     Grid,
@@ -8,15 +8,22 @@ import {
 
   } from '@mui/material';
 
+  import StudentService from "./Routes/StudentService";
+
 function Index(props) {
 
-	const [cardData, setCardData] = useState([
-		{ date: "25-02-2022",title: "Exam Date", time: "6:30 AM - 6:30 PM",
-		description: "Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.", editing: false},
-		{ date: "25-02-2022",title: "Exam Date", time: "6:30 AM - 6:30 PM",
-		description: "Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.", editing: false},
-	
-	  ],);
+	const [cardData, setCardData] = useState([]);
+
+  useEffect(() => {
+   
+    let studentService = new StudentService();
+      studentService
+      .getImportantDates()
+      //.then((result) => console.log(result.data[0]));
+      .then((result) => {
+        setCardData(result.data);
+      });
+  }, []);
 
 	return (
 
@@ -27,14 +34,14 @@ function Index(props) {
             <Card sx={{ boxShadow: 10 }}>
               <CardContent>
               <Typography fontSize={12} color='green'>
-                  {elem.date}
+                  {elem.from}
                 </Typography>
                 <Typography variant='h4' color='black'>
-                  {elem.title}
+                  {elem.name}
                 </Typography>
-                <Typography fontSize={12} color='green' marginBottom={2}>
+                {/* <Typography fontSize={12} color='green' marginBottom={2}>
                   {elem.time}
-                </Typography>
+                </Typography> */}
                 <Typography variant='p' color='textSecondary'>
                   {elem.description}
                 </Typography>

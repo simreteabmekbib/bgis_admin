@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { ThemeProvider, createTheme, Button, Grid, Autocomplete, TextField, Box, Icon } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useForm } from "react-hook-form";
-import { columns, rows } from './tableData'
+import { columns, resultData } from './tableData'
+import StudentService from "../Routes/StudentService";
 
 export default function View() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -17,7 +18,19 @@ export default function View() {
   const [subjectInitialValue, setsubjectInitialValue] = useState("");
   const [statusInitialValue, setstatusInitialValue] = useState("");
 
-  const [tableData, setTableData] = useState(rows)
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+   
+    let studentService = new StudentService();
+      studentService
+      .getResultById()
+      //.then((result) => console.log(result.data[0]));
+      .then((result) => {
+        setTableData(result.data);
+      });
+  }, []);
+
   const onSubmit = (data) => {
     console.log(data.result)
     setresultInitialValue(data.result);
@@ -73,18 +86,18 @@ export default function View() {
       {show && <ThemeProvider theme={theme}>
         <MaterialTable
           columns={columns} data={filteredData}
-          onSelectionChange={(selectedRows) => console.log(selectedRows)}
+          onSelectionChange={(selectedresultData) => console.log(selectedresultData)}
           options={{
             sorting: true, search: true,
             searchFieldAlignment: "right", searchAutoFocus: true, searchFieldVariant: "standard",
             filtering: true, paging: true, pageSizeOptions: [2, 5, 10, 20, 25, 50, 100], pageSize: 5,
             paginationType: "stepped", showFirstLastPageButtons: true, paginationPosition: "bottom", exportButton: true,
             exportAllData: true, exportFileName: "TableData", addRowPosition: "first", actionsColumnIndex: -1, selection: false, filtering: false,
-            showSelectAllCheckbox: false, showTextRowsSelected: false, selectionProps: rowData => ({
+            showSelectAllCheckbox: false, showTextresultDataSelected: false, selectionProps: rowData => ({
               color: "primary",         
             }),
             grouping: true, columnsButton: true,
-            rowStyle: (data, index) => index % 2 === 0 ? { background: "#f5f5f5" } : null,
+            resultDatatyle: (data, index) => index % 2 === 0 ? { background: "#f5f5f5" } : null,
             headerStyle: { background: "#2196f3", color: "#fff" }
           }}
           title="Result"/>

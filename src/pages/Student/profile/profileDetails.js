@@ -1,16 +1,31 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    Divider,
+    Grid,
+    TextField
+  } from '@mui/material';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+  import BasicProfile from '../../../components/EditProfile/basicProfile';
+  import EditAddress from '../../../components/EditProfile/editAddress';
+  import EditContact from '../../../components/EditProfile/editContact';
+  import EditPassword from '../../../components/EditProfile/editPassword';
 
-function TabPanel(props: TabPanelProps) {
+
+// interface TabPanelProps {
+//   children?: React.ReactNode;
+//   index: number;
+//   value: number;
+// }
+
+function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -30,17 +45,17 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: number) {
+function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
-export default function BasicTabs() {
+export default function AccountProfileDetails() {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -48,20 +63,53 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Edit Profile" {...a11yProps(0)} />
+          <Tab label="Edit Contacts" {...a11yProps(1)} />
+          <Tab label="Edit Address" {...a11yProps(2)} />
+          <Tab label="Edit Password" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
+      <form
+      autoComplete="off"
+      noValidate
+    >
+      <Card>
+        {/* <CardHeader
+          subheader="The information can be edited"
+          title="Profile"
+        /> */}
+        <Divider />
+        <CardContent>
+            <TabPanel value={value} index={0}>
+                <BasicProfile/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <EditContact/>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+            <EditAddress/>
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <EditPassword/>
+            </TabPanel>
+        </CardContent>
+        <Divider />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            p: 2
+          }}
+        >
+          <Button
+            color="primary"
+            variant="contained"
+          >
+            Save Edits
+          </Button>
+        </Box>
+      </Card>
+    </form>
     </Box>
   );
 }
