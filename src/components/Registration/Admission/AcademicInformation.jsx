@@ -9,9 +9,6 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
 
-
-
-
 const AcademicInformation = (props) => {
 
     const router = useRouter();

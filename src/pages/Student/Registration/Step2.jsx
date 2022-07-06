@@ -10,7 +10,7 @@ function Step2() {
             <Typography variant='h2' align='center' color='textPrimary' marginTop={2}>
                 Admission Form
             </Typography>
-            <ContactAddress nextPage={'/Student/Step3'}/>
+            <ContactAddress nextPage={'/Student/Registration/Step3'}/>
     </StudentLayout>
 
   );

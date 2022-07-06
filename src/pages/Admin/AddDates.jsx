@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminLayout from './layout';
 import {
     Box,
@@ -22,6 +22,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import moment from 'moment';
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -60,18 +62,67 @@ function AddImportantDates() {
   };
 
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit = async (data) => {
+    var date = data.date;
+var timeTo  = data.to;
+var timeFrom = data.from;
+
+// tell moment how to parse the input string
+var momentObjTo = moment(date + timeTo, 'YYYY-MM-DDLT');
+var momentObjFrom = moment(date + timeFrom, 'YYYY-MM-DDLT');
+
+// conversion
+var dateTimeTo = momentObjTo.format('YYYY-MM-DDTHH:mm:ss.ms');
+var dateTimeFrom = momentObjFrom.format('YYYY-MM-DDTHH:mm:ss.ms');
+
+console.log(dateTimeTo+"Z");
+console.log(dateTimeFrom+"Z");
+
+    const res = await fetch("https://localhost:7247/api/Admission/AddImportantDate/AddImportantDate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: data.title,
+      description: data.description,
+      from: dateTimeFrom+"Z",
+      to: dateTimeTo+"Z" }),
+    });
+    if (res.status === 201) {
+      // redirect
+      console.log("success routing")
+
+    } else {
+      // display an error
+    }
   };
 
-  const [cardData, setCardData] = useState([
-    { date: "25-02-2022",title: "Exam Date", time: "6:30 AM - 6:30 PM",
-    description: "Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.", editing: false},
-    { date: "25-02-2022",title: "Exam Date", time: "6:30 AM - 6:30 PM",
-    description: "Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.", editing: false},
-
-  ],);
+  const [cardData, setCardData] = useState([]);
   const [mainDescription, setMainDescription] = useState();
+
+  const handleInitialData = async () => {
+    
+        const res = await fetch("https://localhost:7247/api/Admission/GetImportantDates/GetAllImportantDates", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (res.status === 200) {
+          // redirect
+          const data = await res.json();
+
+          console.log(data)
+          await setCardData(data)
+          console.log(cardData)
+    
+        } else {
+          // display an error
+        }
+};
+useEffect(() => {
+  handleInitialData();
+}, []);
 
   return (
       <AdminLayout>
@@ -136,7 +187,7 @@ function AddImportantDates() {
         }}
         //sx={{ width: 150 }}
         fullWidth
-        {...register('to', { required: 'Required' })}
+        {...register('to')}
                 error={!!errors?.to}
                 helperText={errors?.to ? errors.to.message : null}
       /></Grid>
@@ -174,7 +225,7 @@ function AddImportantDates() {
                 {!elem.editing && <Grid container justifyContent="flex-end">
                 <EditIcon style={{ color: "blue" }}
                 onClick={()=>{
-                  const newRow = {date: elem.date, title: elem.title, time: elem.time, description: elem.description, editing: true}
+                  const newRow = {id: elem.id, name: elem.name, description: elem.description, from: elem.from, to: elem.to, editing: true}
                   const updatedData = [...cardData]
               updatedData[cardData.indexOf(elem)] = newRow
               setCardData(updatedData)
@@ -188,14 +239,33 @@ function AddImportantDates() {
         }}/>
                 </Grid>}
                 {elem.editing && <Grid container justifyContent="flex-end">
-                <CheckIcon onClick={() =>{
-              const newRow = {date: elem.date, title: elem.title, time: elem.time, description: mainDescription, editing: false}
+                <CheckIcon onClick={async () =>{
+              const newRow = {name: elem.name, from: elem.from, to: elem.to, description: mainDescription, editing: false}
               const updatedData = [...cardData]
           updatedData[cardData.indexOf(elem)] = newRow
           setCardData(updatedData)
+          const res = await fetch("https://localhost:7247/api/Admission/UpdateImportantDate/UpdateImportantDate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        id: elem.id,
+        name: elem.name,
+      description: mainDescription,
+      from: elem.from,
+      to: elem.to }),
+    });
+    if (res.status === 200) {
+      // redirect
+      console.log("success routing")
+
+    } else {
+      // display an error
+    }
             }}/>
             <ClearIcon onClick={() =>{
-                  const newRow = {date: elem.date, title: elem.title, time: elem.time, description: elem.description, editing: false}
+                  const newRow = {name: elem.name, description: elem.description, from: elem.from, to: elem.to, editing: false}
                   const updatedData = [...cardData]
               updatedData[cardData.indexOf(elem)] = newRow
               setCardData(updatedData)
@@ -205,13 +275,13 @@ function AddImportantDates() {
               </CardActions>
               <CardContent>
               <Typography fontSize={12} color='green'>
-                  {elem.date}
+                  {moment(elem.from).format('LL')}
                 </Typography>
                 <Typography variant='h4' color='black'>
-                  {elem.title}
+                  {elem.name}
                 </Typography>
                 <Typography fontSize={12} color='green' marginBottom={2}>
-                  {elem.time}
+                  {moment(elem.from).format("dddd, h:mm:ss a")+" - " + moment(elem.to).format("h:mm:ss a")}
                 </Typography>
                 {!elem.editing && <Typography variant='p' color='textSecondary'>
                   {elem.description}

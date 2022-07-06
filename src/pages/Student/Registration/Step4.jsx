@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import StudentLayout from './layout';  
+import StudentLayout from '../layout';  
 import {CssBaseline,Typography} from '@mui/material';
 
 function Step4() {

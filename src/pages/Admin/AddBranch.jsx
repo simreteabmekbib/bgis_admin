@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminLayout from './layout';
 import MaterialTable from 'material-table';
 import { ThemeProvider, Button, Grid, Autocomplete, TextField, Box, Icon } from '@mui/material';
@@ -10,34 +10,31 @@ import theme from '../../styles/theme/theme'
 export default function ViewStudents() {
 
 
-  const [tableData, setTableData] = useState([
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
-    {name: "Kera", branchId: "kera123", address: "Arada", phoneNumber: "0913675493", description: "A branch with multiple something" },
+  const [tableData, setTableData] = useState([])
 
-  ])
+  const handleInitialData = async () => {
+    
+    const res = await fetch("https://localhost:7247/api/Admission/GetAllBranches/GetAllBranches", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      // redirect
+      const data = await res.json();
+
+      console.log(data)
+      await setTableData(data)
+      console.log(tableData)
+
+    } else {
+      // display an error
+    }
+};
+useEffect(() => {
+handleInitialData();
+}, []);
   
   const columns = [
     {
@@ -66,15 +63,50 @@ export default function ViewStudents() {
         <MaterialTable
           columns={columns} data={tableData}
           editable={{
-            onRowAdd: (newRow) => new Promise((resolve, reject) => {
+            onRowAdd: (newRow) => new Promise(async (resolve, reject) => {
               setTableData([...tableData, newRow])
+              const res = await fetch("https://localhost:7247/api/Admission/AddBranch/AddBranch", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newRow.name,
+      description: newRow.description,
+      address: newRow.address,
+      phoneNumber: newRow.phoneNumber }),
+    });
+    if (res.status === 200) {
+      // redirect
+      console.log("success routing")
 
+    } else {
+      // display an error
+    }
               setTimeout(() => resolve(), 500)
             }),
-            onRowUpdate: (newRow, oldRow) => new Promise((resolve, reject) => {
+            onRowUpdate: (newRow, oldRow) => new Promise(async (resolve, reject) => {
               const updatedData = [...tableData]
               updatedData[oldRow.tableData.id] = newRow
               setTableData(updatedData)
+              const res = await fetch("https://localhost:7247/api/Admission/UpdateBranch/UpdateBranch", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        id: oldRow.id,
+        name: newRow.name,
+      description: newRow.description,
+      address: newRow.address,
+      phoneNumber: newRow.phoneNumber }),
+    });
+    if (res.status === 200) {
+      // redirect
+      console.log("success routing")
+
+    } else {
+      // display an error
+    }
               setTimeout(() => resolve(), 500)
             }),
             onRowDelete: (selectedRow) => new Promise((resolve, reject) => {
@@ -103,7 +135,7 @@ export default function ViewStudents() {
             rowStyle: (data, index) => index % 2 === 0 ? { background: "#f5f5f5" } : null,
             headerStyle: { background: theme.palette.tableHeader.main, color: "#fff" }
           }}
-          title="List of Students"
+          title="List of Branches"
           onRowClick={()=>console.log("navigate to User Profile")}
           icons={{
             Add: () => <AddIcon />, Edit: () => <EditIcon style={{ color: theme.palette.editIcon.main }} />,

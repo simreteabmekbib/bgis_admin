@@ -273,7 +273,7 @@ const BasicInformation = (props) => {
 
     const onSubmit = (data) => {
         console.log(data);
-        router.push(props.nextPage);
+        router.push(props.nextPage, {query: data});
 
     }
     const handleGenderChange = (event) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StudentLayout from './layout';
 import {
     Grid,
@@ -7,16 +7,35 @@ import {
     CardContent,
 
   } from '@mui/material';
+  import moment from 'moment';
 
 function Index(props) {
 
-	const [cardData, setCardData] = useState([
-		{ date: "25-02-2022",title: "Exam Date", time: "6:30 AM - 6:30 PM",
-		description: "Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.", editing: false},
-		{ date: "25-02-2022",title: "Exam Date", time: "6:30 AM - 6:30 PM",
-		description: "Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.Although cards can support multiple actions, UI controls, and an overflow menu, use restraint and remember that cards are entry points to more complex and detailed information.", editing: false},
-	
-	  ],);
+	const [cardData, setCardData] = useState([]);
+  const handleInitialData = async () => {
+    
+    const res = await fetch("https://localhost:7247/api/Admission/GetImportantDates/GetAllImportantDates", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      // redirect
+      const data = await res.json();
+
+      console.log(data)
+      await setCardData(data)
+      console.log(cardData)
+
+    } else {
+      // display an error
+    }
+};
+useEffect(() => {
+handleInitialData();
+}, []);
+
 
 	return (
 
@@ -30,13 +49,13 @@ function Index(props) {
             <Card sx={{ boxShadow: 10 }}>
               <CardContent>
               <Typography fontSize={12} color='green'>
-                  {elem.date}
+              {moment(elem.from).format('LL')}
                 </Typography>
                 <Typography variant='h4' color='black'>
-                  {elem.title}
+                {elem.name}
                 </Typography>
                 <Typography fontSize={12} color='green' marginBottom={2}>
-                  {elem.time}
+                {moment(elem.from).format("dddd, h:mm:ss a")+" - " + moment(elem.to).format("h:mm:ss a")}
                 </Typography>
                 <Typography variant='p' color='textSecondary'>
                   {elem.description}

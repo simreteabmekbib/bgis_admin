@@ -11,7 +11,6 @@ import { useForm } from 'react-hook-form';
 
 
 
-
 const ContactAddress = (props) => {
 
     const router = useRouter();
@@ -21,6 +20,9 @@ const ContactAddress = (props) => {
         router.push(props.nextPage);
 
     }
+
+const query = router.query
+console.log(query)
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3} columns={12} marginTop={1}>
