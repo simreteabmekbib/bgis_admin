@@ -184,6 +184,29 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 authLoading: false,
                 authError: action.payload
             };
+            case AuthActionTypes.USER_COMPLETE_PROFILE_START:
+                return {
+                    ...state,
+                authLoading: true,
+                completeRegistrationModel: action.payload
+                };
+            case AuthActionTypes.USER_COMPLETE_PROFILE_SUCCESS:
+                return {
+                ...state,
+                authLoading: false,
+                userBranch: action.payload.userBranch,
+                userDateOfBirth: action.payload.userDateOfBirth,
+                userGender: action.payload.userGender,
+                userNationality: action.payload.userNationality,
+                userExpectedGradeLevel: action.payload.userExpectedGradeLevel,
+                authError: null
+                };
+            case AuthActionTypes.USER_COMPLETE_PROFILE_FAILURE:
+                return {
+                    ...state,
+                authLoading: false,
+                authError: action.payload
+                };
         case AuthActionTypes.USER_LOGIN_START:
             return {
                 ...state,

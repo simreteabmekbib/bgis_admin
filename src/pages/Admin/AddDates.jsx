@@ -231,11 +231,26 @@ useEffect(() => {
               setCardData(updatedData)
         
                 }}/>
-                <DeleteIcon style={{ color: "red" }} onClick={()=>{
+                <DeleteIcon style={{ color: "red" }} onClick={async ()=>{
           const updatedData = [...cardData]
           updatedData.splice(cardData.indexOf(elem), 1)
           setCardData(updatedData)
+          const res = await fetch("https://localhost:7247/api/Admission/DeleteImportantDate/DeleteImportantDate", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    id: elem.id,
+                  }),
+                });
+                if (res.status === 200) {
+                  // redirect
+                  console.log("success routing")
 
+                } else {
+                  // display an error
+                }
         }}/>
                 </Grid>}
                 {elem.editing && <Grid container justifyContent="flex-end">

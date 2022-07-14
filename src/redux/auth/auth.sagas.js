@@ -1,4 +1,5 @@
 import { all, put, call, takeLatest } from 'redux-saga/effects'
+import store from '../store';
 
 import axios from 'axios';
 import qs, { stringify } from 'querystring';
@@ -20,8 +21,10 @@ import {
     refreshTokenFail,
     userRegistrationSuccess,
     userRegistrationFailure,
+    userCompleteProfileSuccess,
+    userCompleteProfileFailure,
     setUserRoles,
-    setUserID
+    setUserID,
 } from './auth.actions';
 import Router from 'next/router';
 
@@ -145,6 +148,39 @@ function* onUserRegister() {
     yield takeLatest(AuthActionTypes.USER_REGISTRATION_START, getUserIDAsync)
 }
 
+function* onUserCompleteProfile() {
+    yield takeLatest(AuthActionTypes.USER_COMPLETE_PROFILE_START, getUserInfoAsync)
+}
+
+function* getUserInfoAsync({ payload }) {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        const requestBody = {
+            userBranch: payload.userBranch,
+            userDateOfBirth: payload.userDateOfBirth,
+            userGender: payload.userGender,
+            userNationality: payload.userNationality,
+            userExpectedGradeLevel: payload.userExpectedGradeLevel,
+
+        };
+
+        yield put(userCompleteProfileSuccess(payload.userBranch, payload.userDateOfBirth, payload.userGender, payload.userNationality, payload.userExpectedGradeLevel));
+        const nextPage = "Admin/StudentRegistration/Step2"
+        // Auth.userBranch = payload.userBranch
+        yield call(Router.push, `/${{userBranch: payload.userBranch},nextPage}`);
+        // }
+
+
+    }
+    catch (error) {
+        yield put(userCompleteProfileFailure(error));
+    }
+}
+
 function* getUserIDAsync({ payload }) {
     try {
         const config = {
@@ -218,7 +254,8 @@ export function* authSagas() {
         call(onUserCreatePassword),
         call(onUserLogin),
         call(onLogout),
-        call(onUserRegister)
+        call(onUserRegister),
+        call(onUserCompleteProfile)
     ]);
 }
 

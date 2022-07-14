@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
     Paper, Grid, CssBaseline, Container, AppBar, Toolbar, IconButton, Box,
     Typography, TextField, InputLabel, MenuItem, Stack,
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import { userCompleteProfileStart } from '../../redux/auth/auth.actions';
 
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -20,6 +22,8 @@ const BasicInformation = (props) => {
     const [gradeLevel, setGradeLevel] = useState('');
     const [nationality, setNationality] = useState('');
     const [gender, setGender] = useState('');
+    const [branch, setBranch] = useState('');
+    const [branchData, setBranchData] = useState([]);
     const [country, setCountry]= useState([
     "Ethiopia",
     "Afghanistan",
@@ -272,12 +276,19 @@ const BasicInformation = (props) => {
     "Zimbabwe"]);
 
     const onSubmit = (data) => {
-        console.log(data);
-        router.push(props.nextPage, {query: data});
+        //console.log(data);
+        router.push({
+            pathname: props.nextPage,
+            query: {branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level}
+        }, props.nextPage );
+
 
     }
     const handleGenderChange = (event) => {
         setGender(event.target.value);
+    };
+    const handleBranchChange = (event) => {
+        setBranch(event.target.value);
     };
     const handleGradeLevelChange = (event) => {
         setGradeLevel(event.target.value);
@@ -286,6 +297,28 @@ const BasicInformation = (props) => {
     const handleNationalityChange = (event) => {
         setNationality(event.target.value);
     };
+    const handleInitialData = async () => {
+    
+        const res = await fetch("https://localhost:7247/api/Admission/GetAllBranches/GetAllBranches", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (res.status === 200) {
+          // redirect
+          const data = await res.json();
+    
+          console.log(data)
+          await setBranchData(data)
+    
+        } else {
+          // display an error
+        }
+    };
+    useEffect(() => {
+    handleInitialData();
+    }, []);
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -295,6 +328,31 @@ const BasicInformation = (props) => {
                         <Typography variant='h6' align='left' color='textSecondary' marginTop={2}>
                             Basic Information
                         </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={3} md={3}></Grid>
+                    <Grid item xs={12} sm={3} md={3}></Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <FormControl
+                            fullWidth
+                        >
+                            <InputLabel id="branch_label">Branch Name</InputLabel>
+                            <Select
+                                fullWidth
+                                placeholder='Branch Name'
+                                labelId="branch_label"
+                                id="branch"
+                                {...register('branch', { required: 'Required' })}
+                                error={!!errors?.branch}
+                                helperText={errors?.branch ? errors.branch.message : null}
+                                value={branch}
+                                label="Branch Name"
+                                onChange={handleBranchChange}
+                                required
+                            >
+                                 {branchData.map((elem) => (
+                                <MenuItem value={elem.name}>{elem.name}</MenuItem>))}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={3} md={3}></Grid>
                     <Grid item xs={12} sm={3} md={3}></Grid>

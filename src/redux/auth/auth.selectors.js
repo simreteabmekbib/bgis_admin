@@ -68,4 +68,25 @@ export const selectUserPermissions = createSelector(
     auth => auth.userPermissions
 )
 
+export const selectUserBranch = createSelector(
+    [selectAuth],
+    auth => auth.userBranch
+)
+export const selectUserDateOfBirth = createSelector(
+    [selectAuth],
+    auth => auth.userDateOfBirth
+)
+export const selectUserGender = createSelector(
+    [selectAuth],
+    auth => auth.userGender
+)
+export const selectUserNationality = createSelector(
+    [selectAuth],
+    auth => auth.userNationality
+)
+export const selectUserExpectedGradeLevel = createSelector(
+    [selectAuth],
+    auth => auth.userExpectedGradeLevel
+)
+
 

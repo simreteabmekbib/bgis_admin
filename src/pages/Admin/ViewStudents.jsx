@@ -6,9 +6,11 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import theme from '../../styles/theme/theme'
+import { useRouter } from 'next/router';
 
 export default function ViewStudents() {
 
+  const router = useRouter();
 
   const [tableData, setTableData] = useState([
     { name: "Simreteab Mekbib Ashenafi", dob: "12-04-2022", email: "abebe@gmail.com", phoneNumber: "0967543489", alternative: "0978346234", branchName: "Kera", username: "abebe123"},
@@ -124,7 +126,10 @@ export default function ViewStudents() {
             headerStyle: { background: theme.palette.tableHeader.main, color: "#fff" }
           }}
           title="List of Students"
-          onRowClick={()=>console.log("navigate to User Profile")}
+          onRowClick={()=>router.push({
+            pathname: '/Admin/Profile',
+            query: {userId: "1"}
+        }, '/Admin/Profile' )}
           icons={{
             Add: () => <AddIcon />, Edit: () => <EditIcon style={{ color: theme.palette.editIcon.main }} />,
             Delete: () => <DeleteIcon style={{ color: theme.palette.deleteIcon.main }} />

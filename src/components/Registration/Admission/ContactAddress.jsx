@@ -6,23 +6,28 @@ import { useRouter } from 'next/router';
 
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
-
-
-
-
+import { useState, useEffect } from 'react';
 
 const ContactAddress = (props) => {
 
     const router = useRouter();
+    console.log(router.query.branch);
+    console.log(router.query.birthDate);
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = (data) => {
-        console.log(data);
-        router.push(props.nextPage);
+        //console.log(data);
+        router.push({
+            pathname: props.nextPage,
+            query: { branch: router.query.branch, birthDate: router.query.birthDate, gender: router.query.gender, nationality: router.query.nationality, gradeLevel: router.query.gradeLevel, phoneNumber: data.phoneNumber, alternativePhoneNumber: data.alternativePhoneNumber,  subcity: data.subcity, woreda: data.woreda, houseNumber: data.house_number}
+        }, props.nextPage );
 
     }
 
-const query = router.query
-console.log(query)
+    // useEffect(() => {
+    //     console.log(router.query.branch); 
+    //   }, [router.query]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3} columns={12} marginTop={1}>
@@ -126,4 +131,5 @@ console.log(query)
     );
 
 }
+
 export default ContactAddress;

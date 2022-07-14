@@ -79,6 +79,21 @@ export const userRegistrationFailure = (error) => ({
     payload: error
 });
 
+export const userCompleteProfileStart = (completeRegistrationModel) => ({
+    type: AuthActionTypes.USER_COMPLETE_PROFILE_START,
+    payload: completeRegistrationModel
+});
+
+export const userCompleteProfileSuccess = (userBranch, userDateOfBirth, userGender, userNationality, userExpectedGradeLevel) => ({
+    type: AuthActionTypes.USER_COMPLETE_PROFILE_SUCCESS,
+    payload: userBranch, userDateOfBirth, userGender, userNationality, userExpectedGradeLevel
+});
+
+export const userCompleteProfileFailure = (error) => ({
+    type: AuthActionTypes.USER_COMPLETE_PROFILE_FAILURE,
+    payload: error
+});
+
 export const setUserRoles = (tokenResponse) => ({
     type: AuthActionTypes.SET_USER_ROLES,
     payload: tokenResponse

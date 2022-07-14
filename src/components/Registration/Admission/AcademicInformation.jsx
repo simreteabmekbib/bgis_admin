@@ -10,12 +10,31 @@ import { useState } from 'react';
 
 
 const AcademicInformation = (props) => {
-
     const router = useRouter();
+    console.log(router.query.branch);
+    console.log(router.query.woreda);
+
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
-        router.push(props.nextPage);
+    const onSubmit = async (data) => {
+        //console.log(data);
+        const res = await fetch("https://localhost:7247/api/Admission/AddAdmissionDetail/AddAdmissionDetail", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    branchName: router.query.branch, dateOfBirth: router.query.birthDate, gender: router.query.gender, nationality: router.query.nationality, expectedGradeLevel: router.query.gradeLevel, phoneNumber: router.query.phoneNumber, alternatePhoneNumber: router.query.alternativePhoneNumber,  subCity: router.query.subcity, woreda: router.query.woreda, houseNumber: router.query.houseNumber, previousSchoolName: data.school_name, previousAverage: data.average_result
+                  }),
+                });
+                if (res.status === 200) {
+                  // redirect
+                  router.push(props.nextPage);
+
+                  console.log("success routing")
+
+                } else {
+                  // display an error
+                }
 
     }
     const onFileChange = (event) => {

@@ -33,7 +33,7 @@ const Registration = (props) => {
 
     const [role, setRole] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
                 const registrationModel = {
@@ -54,6 +54,26 @@ const Registration = (props) => {
 
                 });
                 props.registrationStart(registrationModel);
+                const res = await fetch("https://localhost:7247/api/Auth/Register/Register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        roles : 'student',
+        firstname: data.get('firstname'),
+        middlename: data.get('middlename'),
+        lastname: data.get('lastname'),
+        email: data.get('email'),
+        password: data.get('password') }),
+    });
+    if (res.status === 201) {
+      // redirect
+      console.log("success routing")
+
+    } else {
+      // display an error
+    }
     };
 
     const handleRoleChange = (event) => {
@@ -169,7 +189,7 @@ const Registration = (props) => {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Sign Up
                         </Button>
                         <Grid container>
                             <Grid item>
