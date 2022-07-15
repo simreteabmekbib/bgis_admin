@@ -7,12 +7,20 @@ import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import {
+    selectBranch, selectBirthDate, selectGender, selectNationality, selectGradeLevel
+} from '../../../redux/auth/auth.selectors';
 
 const ContactAddress = (props) => {
 
     const router = useRouter();
-    console.log(router.query.branch);
-    console.log(router.query.birthDate);
+    console.log(props.branch);
+    console.log(props.birthDate);
+    console.log(props.gender);
+    console.log(props.nationality);
+    console.log(props.gradeLevel);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = (data) => {
@@ -132,4 +140,11 @@ const ContactAddress = (props) => {
 
 }
 
-export default ContactAddress;
+const mapStateToProps = createStructuredSelector({
+    branch:selectBranch,
+    birthDate:selectBirthDate,
+    gender:selectGender,
+    nationality:selectNationality,
+    gradeLevel: selectGradeLevel
+})
+export default connect(mapStateToProps)(ContactAddress);

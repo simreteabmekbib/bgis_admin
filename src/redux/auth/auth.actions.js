@@ -79,18 +79,18 @@ export const userRegistrationFailure = (error) => ({
     payload: error
 });
 
-export const userCompleteProfileStart = (completeRegistrationModel) => ({
-    type: AuthActionTypes.USER_COMPLETE_PROFILE_START,
-    payload: completeRegistrationModel
+export const userBasicInformationStart = (basicInformationModel) => ({
+    type: AuthActionTypes.USER_BASIC_INFORMATION_START,
+    payload: basicInformationModel
 });
 
-export const userCompleteProfileSuccess = (userBranch, userDateOfBirth, userGender, userNationality, userExpectedGradeLevel) => ({
-    type: AuthActionTypes.USER_COMPLETE_PROFILE_SUCCESS,
-    payload: userBranch, userDateOfBirth, userGender, userNationality, userExpectedGradeLevel
+export const userBasicInformationSuccess = (branch, birthDate, gender, nationality, gradeLevel) => ({
+    type: AuthActionTypes.USER_BASIC_INFORMATION_SUCCESS,
+    payload: branch, birthDate, gender, nationality, gradeLevel
 });
 
-export const userCompleteProfileFailure = (error) => ({
-    type: AuthActionTypes.USER_COMPLETE_PROFILE_FAILURE,
+export const userBasicInformationFailure = (error) => ({
+    type: AuthActionTypes.USER_BASIC_INFORMATION_FAILURE,
     payload: error
 });
 

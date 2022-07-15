@@ -21,8 +21,8 @@ import {
     refreshTokenFail,
     userRegistrationSuccess,
     userRegistrationFailure,
-    userCompleteProfileSuccess,
-    userCompleteProfileFailure,
+    userBasicInformationSuccess,
+    userBasicInformationFailure,
     setUserRoles,
     setUserID,
 } from './auth.actions';
@@ -148,11 +148,11 @@ function* onUserRegister() {
     yield takeLatest(AuthActionTypes.USER_REGISTRATION_START, getUserIDAsync)
 }
 
-function* onUserCompleteProfile() {
-    yield takeLatest(AuthActionTypes.USER_COMPLETE_PROFILE_START, getUserInfoAsync)
+function* onUserBasicInformation() {
+    yield takeLatest(AuthActionTypes.USER_BASIC_INFORMATION_START, getBasicInfoAsync)
 }
 
-function* getUserInfoAsync({ payload }) {
+function* getBasicInfoAsync({ payload }) {
     try {
         const config = {
             headers: {
@@ -168,16 +168,17 @@ function* getUserInfoAsync({ payload }) {
 
         };
 
-        yield put(userCompleteProfileSuccess(payload.userBranch, payload.userDateOfBirth, payload.userGender, payload.userNationality, payload.userExpectedGradeLevel));
+        yield put(userBasicInformationSuccess({branch: payload.branch, birthDate: payload.birthDate, gender: payload.gender, nationality: payload.nationality, gradeLevel: payload.gradeLevel}));
         const nextPage = "Admin/StudentRegistration/Step2"
-        // Auth.userBranch = payload.userBranch
-        yield call(Router.push, `/${{userBranch: payload.userBranch},nextPage}`);
-        // }
+        yield call(Router.push, `/${{
+            pathname: nextPage,
+            query: {branch: payload.branch, birthDate: payload.birthDate, gender: payload.gender, nationality: payload.nationality, gradeLevel: payload.gradeLevel}
+        }, nextPage}`);
 
 
     }
     catch (error) {
-        yield put(userCompleteProfileFailure(error));
+        yield put(userBasicInformationFailure(error));
     }
 }
 
@@ -255,7 +256,7 @@ export function* authSagas() {
         call(onUserLogin),
         call(onLogout),
         call(onUserRegister),
-        call(onUserCompleteProfile)
+        call(onUserBasicInformation)
     ]);
 }
 

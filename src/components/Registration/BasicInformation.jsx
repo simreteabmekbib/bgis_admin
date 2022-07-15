@@ -5,7 +5,7 @@ import {
     Typography, TextField, InputLabel, MenuItem, Stack,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import { userCompleteProfileStart } from '../../redux/auth/auth.actions';
+import { userBasicInformationStart } from '../../redux/auth/auth.actions';
 
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -277,11 +277,18 @@ const BasicInformation = (props) => {
 
     const onSubmit = (data) => {
         //console.log(data);
-        router.push({
-            pathname: props.nextPage,
-            query: {branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level}
-        }, props.nextPage );
+        // router.push({
+        //     pathname: props.nextPage,
+        //     query: {branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level}
+        // }, props.nextPage );
+        const basicInformationModel = {
+            branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level
+    }
+    // console.log({
+    //     branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level
 
+    // });
+    props.basicInformationStart(basicInformationModel);
 
     }
     const handleGenderChange = (event) => {
@@ -486,4 +493,8 @@ const BasicInformation = (props) => {
     );
 }
 
-export default BasicInformation;
+const mapDispatchToProps = dispatch => ({
+    basicInformationStart: (basicInformationModel) => dispatch(userBasicInformationStart(basicInformationModel))
+});
+
+export default connect(null,mapDispatchToProps)(BasicInformation);
