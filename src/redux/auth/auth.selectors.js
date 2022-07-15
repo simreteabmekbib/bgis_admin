@@ -68,13 +68,13 @@ export const selectUserPermissions = createSelector(
     auth => auth.userPermissions
 )
 
-export const selectBranch = createSelector(
+export const selectBranchName = createSelector(
     [selectAuth],
-    auth => auth.branch
+    auth => auth.branchName
 )
-export const selectBirthDate = createSelector(
+export const selectDateOfBirth = createSelector(
     [selectAuth],
-    auth => auth.birthDate
+    auth => auth.dateOfBirth
 )
 export const selectGender = createSelector(
     [selectAuth],
@@ -84,9 +84,29 @@ export const selectNationality = createSelector(
     [selectAuth],
     auth => auth.nationality
 )
-export const selectGradeLevel = createSelector(
+export const selectExpectedGradeLevel = createSelector(
     [selectAuth],
-    auth => auth.gradeLevel
+    auth => auth.expectedGradeLevel
+)
+export const selectPhoneNumber = createSelector(
+    [selectAuth],
+    auth => auth.phoneNumber
+)
+export const selectAlternatePhoneNumber = createSelector(
+    [selectAuth],
+    auth => auth.alternatePhoneNumber
+)
+export const selectSubCity = createSelector(
+    [selectAuth],
+    auth => auth.subCity
+)
+export const selectWoreda = createSelector(
+    [selectAuth],
+    auth => auth.woreda
+)
+export const selectHouseNumber = createSelector(
+    [selectAuth],
+    auth => auth.houseNumber
 )
 
 

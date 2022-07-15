@@ -276,18 +276,14 @@ const BasicInformation = (props) => {
     "Zimbabwe"]);
 
     const onSubmit = (data) => {
-        //console.log(data);
         // router.push({
         //     pathname: props.nextPage,
         //     query: {branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level}
         // }, props.nextPage );
         const basicInformationModel = {
-            branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level
+            branchName: data.branch, dateOfBirth: data.birth_date, gender: data.gender, nationality: data.nationality, expectedGradeLevel: data.grade_level
     }
-    // console.log({
-    //     branch: data.branch, birthDate: data.birth_date, gender: data.gender, nationality: data.nationality, gradeLevel: data.grade_level
-
-    // });
+    
     props.basicInformationStart(basicInformationModel);
 
     }

@@ -23,6 +23,8 @@ import {
     userRegistrationFailure,
     userBasicInformationSuccess,
     userBasicInformationFailure,
+    userContactAddressSuccess,
+    userContactAddressFailure,
     setUserRoles,
     setUserID,
 } from './auth.actions';
@@ -168,17 +170,49 @@ function* getBasicInfoAsync({ payload }) {
 
         };
 
-        yield put(userBasicInformationSuccess({branch: payload.branch, birthDate: payload.birthDate, gender: payload.gender, nationality: payload.nationality, gradeLevel: payload.gradeLevel}));
+        yield put(userBasicInformationSuccess({branchName: payload.branchName, dateOfBirth: payload.dateOfBirth, gender: payload.gender, nationality: payload.nationality, expectedGradeLevel: payload.expectedGradeLevel}));
         const nextPage = "Admin/StudentRegistration/Step2"
-        yield call(Router.push, `/${{
-            pathname: nextPage,
-            query: {branch: payload.branch, birthDate: payload.birthDate, gender: payload.gender, nationality: payload.nationality, gradeLevel: payload.gradeLevel}
-        }, nextPage}`);
+        yield call(Router.push, `/${nextPage}`);
 
 
     }
     catch (error) {
         yield put(userBasicInformationFailure(error));
+    }
+}
+
+function* onUserContactAddress() {
+    yield takeLatest(AuthActionTypes.USER_CONTACT_ADDRESS_START, getContactAddAsync)
+}
+
+function* getContactAddAsync({ payload }) {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        const requestBody = {
+            userBranch: payload.userBranch,
+            userDateOfBirth: payload.userDateOfBirth,
+            userGender: payload.userGender,
+            userNationality: payload.userNationality,
+            userExpectedGradeLevel: payload.userExpectedGradeLevel,
+
+        };
+
+        yield put(userContactAddressSuccess({phoneNumber: payload.phoneNumber,
+            alternatePhoneNumber: payload.alternatePhoneNumber,
+            subCity: payload.subCity,
+            woreda: payload.woreda,
+            houseNumber: payload.houseNumber,}));
+        const nextPage = "Admin/StudentRegistration/Step3"
+        yield call(Router.push, `/${nextPage}`);
+
+
+    }
+    catch (error) {
+        yield put(userContactAddressFailure(error));
     }
 }
 
@@ -256,7 +290,8 @@ export function* authSagas() {
         call(onUserLogin),
         call(onLogout),
         call(onUserRegister),
-        call(onUserBasicInformation)
+        call(onUserBasicInformation),
+        call(onUserContactAddress)
     ]);
 }
 

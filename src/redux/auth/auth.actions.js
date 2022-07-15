@@ -84,13 +84,28 @@ export const userBasicInformationStart = (basicInformationModel) => ({
     payload: basicInformationModel
 });
 
-export const userBasicInformationSuccess = (branch, birthDate, gender, nationality, gradeLevel) => ({
+export const userBasicInformationSuccess = (branchName, dateOfBirth, gender, nationality, expectedGradeLevel) => ({
     type: AuthActionTypes.USER_BASIC_INFORMATION_SUCCESS,
-    payload: branch, birthDate, gender, nationality, gradeLevel
+    payload: branchName, dateOfBirth, gender, nationality, expectedGradeLevel
 });
 
 export const userBasicInformationFailure = (error) => ({
     type: AuthActionTypes.USER_BASIC_INFORMATION_FAILURE,
+    payload: error
+});
+
+export const userContactAddressStart = (contactAddressModel) => ({
+    type: AuthActionTypes.USER_CONTACT_ADDRESS_START,
+    payload: contactAddressModel
+});
+
+export const userContactAddressSuccess = (phoneNumber, alternatePhoneNumber,  subCity, woreda, houseNumber) => ({
+    type: AuthActionTypes.USER_CONTACT_ADDRESS_SUCCESS,
+    payload: phoneNumber, alternatePhoneNumber, subCity, woreda, houseNumber
+});
+
+export const userContactAddressFailure = (error) => ({
+    type: AuthActionTypes.USER_CONTACT_ADDRESS_FAILURE,
     payload: error
 });
 

@@ -8,27 +8,25 @@ import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import {
-    selectBranch, selectBirthDate, selectGender, selectNationality, selectGradeLevel
-} from '../../../redux/auth/auth.selectors';
+import { userContactAddressStart } from '../../../redux/auth/auth.actions';
+
 
 const ContactAddress = (props) => {
 
     const router = useRouter();
-    console.log(props.branch);
-    console.log(props.birthDate);
-    console.log(props.gender);
-    console.log(props.nationality);
-    console.log(props.gradeLevel);
+    
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = (data) => {
-        //console.log(data);
-        router.push({
-            pathname: props.nextPage,
-            query: { branch: router.query.branch, birthDate: router.query.birthDate, gender: router.query.gender, nationality: router.query.nationality, gradeLevel: router.query.gradeLevel, phoneNumber: data.phoneNumber, alternativePhoneNumber: data.alternativePhoneNumber,  subcity: data.subcity, woreda: data.woreda, houseNumber: data.house_number}
-        }, props.nextPage );
+        const contactAddressModel = {
+            phoneNumber: data.phoneNumber,
+            alternatePhoneNumber: data.alternativePhoneNumber,
+            subCity: data.subcity,
+            woreda: data.woreda,
+            houseNumber: data.house_number,
+    }
+    
+    props.contactAddressStart(contactAddressModel);
 
     }
 
@@ -140,11 +138,8 @@ const ContactAddress = (props) => {
 
 }
 
-const mapStateToProps = createStructuredSelector({
-    branch:selectBranch,
-    birthDate:selectBirthDate,
-    gender:selectGender,
-    nationality:selectNationality,
-    gradeLevel: selectGradeLevel
-})
-export default connect(mapStateToProps)(ContactAddress);
+const mapDispatchToProps = dispatch => ({
+    contactAddressStart: (contactAddressModel) => dispatch(userContactAddressStart(contactAddressModel))
+});
+
+export default connect(null,mapDispatchToProps)(ContactAddress);

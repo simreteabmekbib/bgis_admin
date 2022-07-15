@@ -7,12 +7,24 @@ import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-
+import {
+    selectBranchName, selectDateOfBirth, selectGender, selectNationality, selectExpectedGradeLevel, selectPhoneNumber, selectAlternatePhoneNumber, selectSubCity, selectWoreda, selectHouseNumber
+} from '../../../redux/auth/auth.selectors';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 const AcademicInformation = (props) => {
     const router = useRouter();
-    console.log(router.query.branch);
-    console.log(router.query.woreda);
+    console.log(props.branchName);
+    console.log(props.dateOfBirth);
+    console.log(props.gender);
+    console.log(props.nationality);
+    console.log(props.expectedGradeLevel);
+    console.log(props.phoneNumber);
+    console.log(props.alternatePhoneNumber);
+    console.log(props.subCity);
+    console.log(props.woreda);
+    console.log(props.houseNumber);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
@@ -23,7 +35,7 @@ const AcademicInformation = (props) => {
                     "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
-                    branchName: router.query.branch, dateOfBirth: router.query.birthDate, gender: router.query.gender, nationality: router.query.nationality, expectedGradeLevel: router.query.gradeLevel, phoneNumber: router.query.phoneNumber, alternatePhoneNumber: router.query.alternativePhoneNumber,  subCity: router.query.subcity, woreda: router.query.woreda, houseNumber: router.query.houseNumber, previousSchoolName: data.school_name, previousAverage: data.average_result
+                    branchName: props.branchName, dateOfBirth: props.dateOfBirth, gender: props.gender, nationality: props.nationality, expectedGradeLevel: props.expectedGradeLevel, phoneNumber: props.phoneNumber, alternatePhoneNumber: props.alternativePhoneNumber,  subCity: props.subcity, woreda: props.woreda, houseNumber: props.houseNumber, previousSchoolName: data.school_name, previousAverage: data.average_result
                   }),
                 });
                 if (res.status === 200) {
@@ -157,4 +169,16 @@ const AcademicInformation = (props) => {
     );
 
 }
-export default AcademicInformation;
+const mapStateToProps = createStructuredSelector({
+    branchName:selectBranchName,
+    dateOfBirth:selectDateOfBirth,
+    gender:selectGender,
+    nationality:selectNationality,
+    expectedGradeLevel: selectExpectedGradeLevel,
+    phoneNumber: selectPhoneNumber,
+    alternatePhoneNumber: selectAlternatePhoneNumber,
+    subCity: selectSubCity,
+    woreda: selectWoreda,
+    houseNumber: selectHouseNumber
+})
+export default connect(mapStateToProps)(AcademicInformation);

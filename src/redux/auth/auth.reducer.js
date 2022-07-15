@@ -188,17 +188,17 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 return {
                     ...state,
                 authLoading: true,
-                completeRegistrationModel: action.payload
+                basicInformationModel: action.payload
                 };
             case AuthActionTypes.USER_BASIC_INFORMATION_SUCCESS:
                 return {
                 ...state,
                 authLoading: false,
-                branch: action.payload.branch,
-                birthDate: action.payload.birthDate,
+                branchName: action.payload.branchName,
+                dateOfBirth: action.payload.dateOfBirth,
                 gender: action.payload.gender,
                 nationality: action.payload.nationality,
-                gradeLevel: action.payload.gradeLevel,
+                expectedGradeLevel: action.payload.expectedGradeLevel,
                 authError: null
                 };
             case AuthActionTypes.USER_BASIC_INFORMATION_FAILURE:
@@ -207,6 +207,29 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 authLoading: false,
                 authError: action.payload
                 };
+                case AuthActionTypes.USER_CONTACT_ADDRESS_START:
+                    return {
+                        ...state,
+                    authLoading: true,
+                    contactAddressModel: action.payload
+                    };
+                case AuthActionTypes.USER_CONTACT_ADDRESS_SUCCESS:
+                    return {
+                    ...state,
+                    authLoading: false,
+                    phoneNumber: action.payload.phoneNumber,
+                    alternatePhoneNumber: action.payload.alternatePhoneNumber,
+                    subCity: action.payload.subCity,
+                    woreda: action.payload.woreda,
+                    houseNumber: action.payload.houseNumber,
+                    authError: null
+                    };
+                case AuthActionTypes.USER_CONTACT_ADDRESS_FAILURE:
+                    return {
+                        ...state,
+                    authLoading: false,
+                    authError: action.payload
+                    };
         case AuthActionTypes.USER_LOGIN_START:
             return {
                 ...state,
